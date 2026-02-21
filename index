@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>Teams videoopkald</title>
+  <style>
+    html, body { height:100%; margin:0; font-family: system-ui, Arial; background:#0f1115; color:#fff; }
+    .wrap { height:100%; display:flex; align-items:center; justify-content:center; padding:24px; }
+    button {
+      width:min(820px, 100%);
+      height: min(260px, 35vh);
+      font-size: clamp(26px, 4vw, 56px);
+      border:0; border-radius:28px;
+      background:#2f7dff; color:#fff;
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
+      cursor:pointer;
+    }
+    .sub { margin-top:18px; opacity:.75; font-size: clamp(14px, 2vw, 22px); text-align:center; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div style="width:100%; max-width:820px; text-align:center;">
+      <button id="callBtn">📹 Ring på Teams</button>
+      <div class="sub">Til: specialminds3@hotmail.com</div>
+    </div>
+  </div>
+
+  <script>
+    const target = "specialminds3@hotmail.com";
+
+    // Officielt Teams deep link til opkald (video)
+    const teamsHttps = `https://teams.microsoft.com/l/call/0/0?users=${encodeURIComponent(target)}&withVideo=true`;
+
+    // Alternativt schema (kan virke bedre på nogle Android-enheder)
+    const teamsScheme = `msteams:/l/call/0/0?users=${encodeURIComponent(target)}&withVideo=true`;
+
+    document.getElementById("callBtn").addEventListener("click", () => {
+      // Prøv først app-scheme, og fald tilbage til https
+      window.location.href = teamsScheme;
+      setTimeout(() => { window.location.href = teamsHttps; }, 600);
+    });
+  </script>
+</body>
+</html>

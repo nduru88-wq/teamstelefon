@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>teamstelefon</title>
+  <style>
+    html, body { height:100%; margin:0; font-family: system-ui, Arial; background:#0f1115; color:#fff; }
+    .wrap { height:100%; display:flex; align-items:center; justify-content:center; padding:24px; }
+    .card { width:min(900px, 100%); text-align:center; }
+    h1 { margin:0 0 10px; font-size: clamp(28px, 4vw, 54px); }
+    p  { margin:0 0 22px; opacity:.8; font-size: clamp(14px, 2vw, 22px); }
+    a.btn {
+      display:flex; align-items:center; justify-content:center;
+      width:100%;
+      height: min(260px, 36vh);
+      border-radius:28px;
+      background:#2f7dff;
+      color:#fff;
+      text-decoration:none;
+      font-size: clamp(26px, 4vw, 56px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .small { margin-top:14px; opacity:.7; font-size: clamp(12px, 1.6vw, 18px); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>teamstelefon</h1>
+      <p>Tryk for at starte Teams videoopkald</p>
+
+      <!-- Knap (link) -->
+      <a id="callLink" class="btn" href="#">📹 Ring på Teams</a>
+
+      <div class="small">Til: <b id="to"></b></div>
+    </div>
+  </div>
+
+  <script>
+    const target = "specialminds3@hotmail.com";
+    document.getElementById("to").textContent = target;
+
+    // Officielt Teams deep link (https)
+    const httpsLink = `https://teams.microsoft.com/l/call/0/0?users=${encodeURIComponent(target)}&withVideo=true`;
+
+    // Android "intent" kan være mere kontant til at åbne appen
+    const intentLink =
+      `intent://teams.microsoft.com/l/call/0/0?users=${encodeURIComponent(target)}&withVideo=true` +
+      `#Intent;scheme=https;package=com.microsoft.teams;end`;
+
+    const a = document.getElementById("callLink");
+
+    // På Android prøver vi intent først (åbner Teams-appen direkte),
+    // og falder tilbage til https hvis den ikke kan.
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = intentLink;
+      setTimeout(() => { window.location.href = httpsLink; }, 800);
+    });
+  </script>
+</body>
+</html>
